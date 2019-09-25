@@ -56,14 +56,14 @@
                 <img src="assets/images/upload.png" alt="" width="25%">
             </div>
 
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="subirArchivo.php" method="POST" enctype="multipart/form-data" id="testform">
                 <div class="padre centrado form-group">
-                    <input type="file" id="input-file-now" class="file-upload cursor" />
+                    <input type="file" id="archivo" name="archivo" class="file-upload cursor" />
                 </div>
 
                 <div class="form-group padre">
-						<button class="btn-success form-control btn-suc">
-							Registrarse
+						<button class="btn-success form-control btn-suc" name="boton" type="submit" value="subir">
+							Analizar
 						</button>
 				</div>
             </form>
