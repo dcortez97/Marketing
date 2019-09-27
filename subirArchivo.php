@@ -153,7 +153,7 @@ if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name']
     if (($gestor = fopen($_FILES['archivo']['tmp_name'], "r")) !== FALSE) {
         while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE) {
             $numero = count($datos);
-            echo "<p> $numero de campos en la línea $fila: <br /></p>\n";
+            //echo "<p> $numero de campos en la línea $fila: <br /></p>\n";
             
             $fila++;
             //implode("','", $datos);
@@ -178,7 +178,17 @@ if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name']
         }
         fclose($gestor);
     }
- 
+
+    
+}
+
+$consulta = " DELETE FROM $table LIMIT 1 " ;
+//echo $consulta;
+
+if ($conn->query($consulta) === TRUE) {
+    //echo "Table MyGuests created successfully";
+} else {
+    //echo "Error creating table: " . $conn->error;
 }
 ?> 
 
