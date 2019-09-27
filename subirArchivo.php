@@ -137,7 +137,49 @@ if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name']
     fclose($fp);
 }
 
+    
+if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name'])) {
+
+    
+    //SE ABRE EL ARCHIVO EN MODO LECTURA
+    $fp = fopen($_FILES['archivo']['tmp_name'], "r");
+    echo $table;
+    echo "<br>";
+    
+    echo "<br>";
+  
+   
+    $fila = 1;
+    if (($gestor = fopen($_FILES['archivo']['tmp_name'], "r")) !== FALSE) {
+        while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE) {
+            $numero = count($datos);
+            echo "<p> $numero de campos en la línea $fila: <br /></p>\n";
+            
+            $fila++;
+            //implode("','", $datos);
+            for ($c=0; $c < $numero; $c++) {
+                $datos[$c] = str_replace(";", ",", $datos[$c]);
+                //echo $c . " " . "---> " .$new_field[$c]; 
+                //echo $datos[$c] = "'".$datos[$c]."'";
+                //echo $datos[$c] = str_replace(",","','",$datos[$c]) . "'";
+                //echo "<br>";
+                
+                //echo $nuevo[$c] = explode(",", $datos[$c]);
+                $consulta = " INSERT INTO $table VALUES ('$datos[$c])" ;
+                //echo $consulta;
+                
+                if ($conn->query($consulta) === TRUE) {
+                    echo "Table MyGuests created successfully";
+                } else {
+                    echo "Error creating table: " . $conn->error;
+                }
+                
+            }
+        }
+        fclose($gestor);
+    }
  
+}
 ?> 
 
 
