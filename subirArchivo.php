@@ -161,7 +161,7 @@ if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name']
                 $datos[$c] = str_replace(";", ",", $datos[$c]);
                 //echo $c . " " . "---> " .$new_field[$c]; 
                 //echo $datos[$c] = "'".$datos[$c]."'";
-                //echo $datos[$c] = str_replace(",","','",$datos[$c]) . "'";
+                $datos[$c] = str_replace(",","','",$datos[$c]) . "'";
                 //echo "<br>";
                 
                 //echo $nuevo[$c] = explode(",", $datos[$c]);
@@ -169,9 +169,9 @@ if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name']
                 //echo $consulta;
                 
                 if ($conn->query($consulta) === TRUE) {
-                    echo "Table MyGuests created successfully";
+                    //echo "Table MyGuests created successfully";
                 } else {
-                    echo "Error creating table: " . $conn->error;
+                    //echo "Error creating table: " . $conn->error;
                 }
                 
             }
