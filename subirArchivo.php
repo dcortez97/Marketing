@@ -1,86 +1,6 @@
-<?php
-
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "fit";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-//SI EL ARCHIVO SE ENVIÓ Y ADEMÁS SE SUBIO CORRECTAMENTE
-if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name'])) {
-    $file = fopen($_FILES['archivo']['tmp_name'], "r");
-    $nombreTabla = $_FILES["archivo"]["name"];
-    $table = date("Y_m_d__H_i_s");  
-    //echo $table;
-    
-    
-    //echo $nombreTabla;
-    
-    $result = fgetcsv($file);
-
-    foreach ($result as $res) {
-    
-        $nuevo = explode(";", $res);
-        //echo $new . ' ';
-        $primer_campo = $nuevo[0];
-        
-        //echo $campo;
-        $consulta = " CREATE TABLE $table ($primer_campo " . " VARCHAR(60))" ;
-        
-        
-        if ($conn->query($consulta) === TRUE) {
-            //echo "Table MyGuests created successfully";
-        } else {
-            //echo "Error creating table: " . $conn->error;
-        }
-        
-    
-        //echo $consulta;
-    
-        for ($i=1; $i < count($nuevo); $i++) { 
-            //echo "<br>";
-            //echo $consulta;
-            
-            //echo $nuevo[$i];
-            //echo "<br>";
-            $consulta = " ALTER TABLE $table ADD $nuevo[$i] " . " VARCHAR(60);" ;
-            
-            if ($conn->query($consulta) === TRUE) {
-                //echo "Table MyGuests created successfully";
-            } else {
-                //echo "Error creating table: " . $conn->error;
-            }
-            
-            //echo $consulta;
-            
-    
-        }
-    
-    }
-    //echo "Subida Correcta";
-}else{
-    //echo "No se pudo subir";
-}
-
-
-//echo $result;
-
-
-
-fclose($file);
-?> 
-
 <?php 
 
     session_start();
-
-    
 
     require 'database.php';
     if (isset($_SESSION['id'])) {
@@ -98,6 +18,128 @@ fclose($file);
     }
 
 ?>
+
+
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "fit";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$table = date("Y_m_d__H_i");
+//SI EL ARCHIVO SE ENVIÓ Y ADEMÁS SE SUBIO CORRECTAMENTE
+if (isset($_FILES["archivo"]) && is_uploaded_file($_FILES['archivo']['tmp_name'])) {
+  
+ //SE ABRE EL ARCHIVO EN MODO LECTURA
+ $fp = fopen($_FILES['archivo']['tmp_name'], "r");
+ 
+ //SE RECORRE
+ $result  = explode(";", fgets($fp));
+
+ while (!feof($fp)){ //LEE EL ARCHIVO A DATA, LO VECTORIZA A DATA
+   
+  //SI SE QUIERE LEER SEPARADO POR TABULADORES
+  //$data  = explode(" ", fgets($fp));
+  //SI SE LEE SEPARADO POR COMAS
+  //$nombreTabla = $_FILES["archivo"]["name"];
+  
+  $campo_perdido = $result[0]; 
+  
+  if (count($result) > 1) {
+ 
+        //for ($i=0; $i < count($result); $i++) { 
+            //  echo "<br/>Imprimir el primer dato solo: {$result[$i]} VARCHAR(60) <br/>";
+                $consulta = " CREATE TABLE $table ($result[0] " . " VARCHAR(60))" ;
+                
+                if ($conn->query($consulta) === TRUE) {
+                    //echo "Table MyGuests created successfully";
+                    
+                } else {
+                    //echo "Error creating table: " . $conn->error;
+                }
+        
+                //echo $consulta;
+                              
+                for ($i=0; $i < count($result); $i++) {
+                   
+                        //echo $result[$i];
+                    
+                        //echo "ALTERADOS"; 
+                        //echo "POSICION" . ":" . " " . $result[$i] . " ";
+                        
+                        $consulta = " ALTER TABLE $table ADD $result[$i] " . " VARCHAR(60);" ;
+                    
+                        if ($conn->query($consulta) === TRUE) {
+                        // echo " SEGUNDO FOR Table MyGuests created successfully";
+                            
+                        } else {
+                            //echo "Error creating table: " . $conn->error;
+                        }  
+                    
+                }
+
+               break;
+
+                //echo $consulta;
+            
+        //}
+        
+  }else{
+      //echo "ENTRO AL ELSE ,";
+      //feof($fp) === false;
+      $nuevo_campo = explode(",", $campo_perdido);
+      //echo $nuevo_campo[0];
+      //$table = date("Y_m_d__H_i");  
+      $result  = explode(",", fgets($fp));
+      
+
+      //for ($i=-1; $i < count($result); $i++) { 
+        //  echo "<br/>Imprimir el primer dato solo: {$result[$i]} VARCHAR(60) <br/>";
+            $consulta = " CREATE TABLE $table ($nuevo_campo[0]" . " VARCHAR(60))" ;
+            
+            if ($conn->query($consulta) === TRUE) {
+                //echo "Table MyGuests created successfully";
+            } else {
+                //echo "Error creating table: " . $conn->error;
+            }
+    
+            //echo $consulta;
+            for ($i=0; $i < count($result); $i++) { 
+                
+                $consulta = " ALTER TABLE $table ADD $nuevo_campo[$i] " . " VARCHAR(60);" ;
+                
+                if ($conn->query($consulta) === TRUE) {
+                    //echo "Table MyGuests created successfully";
+                } else {
+                    //echo "Error creating table: " . $conn->error;
+                }
+                
+            }
+        break;
+        
+    //}
+      
+  }
+   
+} 
+    
+   
+} else{
+    echo "Error de subida";
+    fclose($fp);
+}
+
+ 
+?> 
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,6 +172,7 @@ fclose($file);
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 ancho">
+            
             <div class="imagennew">
                 <h1 class="text-center">El archivo se analizó correctamente</h1>
             </div>
