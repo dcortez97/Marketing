@@ -275,7 +275,7 @@ if ($conn->query($consulta) === TRUE) {
                 <h1 class="text-center">El archivo se analizó correctamente</h1>
             </div>
 
-            <form action="subirArchivo.php" method="POST" enctype="multipart/form-data" id="testform">
+            <form action="AdminLTE-3.0.0-rc.1/dashboard.html" method="POST" enctype="multipart/form-data" id="testform">
                 <div class="form-group mx-auto centerbutton ">
 						<button class="btn-success form-control btn-suc centerbutton">
 							Ver Gráficas 
