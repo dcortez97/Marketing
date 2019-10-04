@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -26,6 +25,9 @@
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -141,21 +143,46 @@
     </div>
     <!-- /.content-header -->
 
+    <?php
+
+        
+
+  ?>
+
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
+        <?php  
+            $servername = "localhost";
+            $username = "root";
+            $password = "root";
+            $dbname = "fit";
+    
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            $consulta = " SELECT SUM(likes) as total FROM 2019_10_01__21_49" ;
+            //echo $consulta;
+
+            $resultado = $conn->query($consulta);
+            $total = $resultado->fetch_assoc();
+
+        ?>
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
-
+                <h3><?php echo $total['total'] ?></h3>
                 <p>Total de Likes</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="ion ion-md-thumbs-up"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -164,13 +191,23 @@
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-success">
+              
+              <?php 
+              
+                $consulta = " SELECT COUNT(userid) as comentarios FROM 2019_10_01__21_49 WHERE gender = 'male'" ;
+                //echo $consulta;
+    
+                $resultado = $conn->query($consulta);
+                $comentarios = $resultado->fetch_assoc();
+              
+              ?>
               <div class="inner">
-                <h3>53<sup style="font-size: 20px"></sup></h3>
+              <h3><?php echo $comentarios['comentarios'] ?></h3>
 
                 <p>Comentarios</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="ion ion-md-mic"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -180,12 +217,22 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+              <?php 
+              
+              $consulta = " SELECT COUNT(userid) as interaccion FROM 2019_10_01__21_49 WHERE likes != 0" ;
+              //echo $consulta;
+  
+              $resultado = $conn->query($consulta);
+              $interacciones = $resultado->fetch_assoc();
+              
+              ?>
+
+              <h3><?php echo $interacciones['interaccion'] ?></h3>
 
                 <p>Interacciones</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="ion ion-md-trending-up"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -195,12 +242,21 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+              <?php 
+              
+                $consulta = " SELECT COUNT(userid) as alcance FROM 2019_10_01__21_49" ;
+                //echo $consulta;
+    
+                $resultado = $conn->query($consulta);
+                $alcance = $resultado->fetch_assoc();
+              
+              ?>
+                <h3><?php echo $alcance['alcance'] ?><sup style="font-size: 20px"></sup></h3>
 
                 <p>Personas Alcanzadas</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion ion-md-people"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>

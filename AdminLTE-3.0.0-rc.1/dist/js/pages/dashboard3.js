@@ -9,7 +9,7 @@ $(function () {
   var mode      = 'index'
   var intersect = true
 
-  var $salesChart = $('#sales-chart')
+  var $salesChart = $('#sales-chart2')
   var salesChart  = new Chart($salesChart, {
     type   : 'bar',
     data   : {
