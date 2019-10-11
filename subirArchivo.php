@@ -256,6 +256,33 @@ if ($conn->query($consulta) === TRUE) {
 
 
 
+<?php 
+    $mysqli = new mysqli("localhost", "root", "root", "fit");
+     
+    /* verificar conexion */
+    if (mysqli_connect_errno()) {
+    echo "Error enconexión: ". mysqli_connect_error();
+    exit();
+    }
+     
+    $sql = " SELECT comments FROM $table ";
+    $rs = $mysqli->query($sql);
+    $todos_comentarios = array();
+    
+    while ($fila = $rs->fetch_assoc()) {
+            //echo '<h3>', $fila['comments'] , '</h3>' ;
+            //echo '<h3>', $fila['userid'] , '</h3>' ;
+
+            $comentario['comentario'] = $fila['comments'];
+            $todos_comentarios[] = $comentario;
+           // echo json_encode($todos_comentarios);
+    }
+        
+    $todos_comentarios;
+     
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -286,6 +313,11 @@ if ($conn->query($consulta) === TRUE) {
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+
+    <script src="assets/js/analizar.js"></script>
+        <script>
+            loadJsonFromPHP(<?php echo json_encode($todos_comentarios) ?>);
+        </script>
 
     <?php require 'partials/links.php'; ?>
 
