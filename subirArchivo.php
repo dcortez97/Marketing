@@ -10,8 +10,8 @@
         $results = $records->fetch(PDO::FETCH_ASSOC);
 
         $user = null;
-        if(count($results) > 0 ) {
-			$user = $results;
+        if(count($results) > 0 ) {  
+			    $user = $results;
         }
         
        
@@ -23,8 +23,8 @@
 <?php
 
 $servername = "localhost";
-$username = "ulises";
-$password = "ulises1996";
+$username = "root";
+$password = "root";
 $dbname = "fit";
 
 // Create connection
@@ -237,6 +237,21 @@ if ($conn->query($consulta) === TRUE) {
     //echo "Error creating table: " . $conn->error;
 }
 
+$usuario = $user['nombre_usuario'];
+
+$proyecto = $_POST["nombre"];
+echo "el valor es:" . $proyecto; 
+// el valor
+echo $usuario;
+$consulta = " INSERT INTO usuario_subida (usuario,nombretable,proyecto) VALUES ('$usuario', '$table', '$proyecto')" ;
+//echo $consulta;
+
+if ($conn->query($consulta) === TRUE) {
+    echo "Table MyGuests created successfully";
+} else {
+    echo "Error creating table: " . $conn->error;
+}
+
 ?> 
 
 
@@ -271,8 +286,15 @@ if ($conn->query($consulta) === TRUE) {
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="assets/css/animado.css">
 
     <?php require 'partials/links.php'; ?>
+
+        <script type="text/javascript" >
+              tablaActual=('<?php echo $table?>');
+
+      
+        </script>
 
     <?php if(!empty($user)): ?>
     
@@ -408,8 +430,8 @@ if ($conn->query($consulta) === TRUE) {
         <div class="row">
         <?php  
             $servername = "localhost";
-            $username = "ulises";
-            $password = "ulises1996";
+            $username = "root";
+            $password = "root";
             $dbname = "fit";
     
             // Create connection
@@ -596,45 +618,46 @@ if ($conn->query($consulta) === TRUE) {
               </div>
             </div>
 
-           
 
-         <div class="card">
+             <div class="card">
               <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">LikesEdad</h3>
-                  <a href="javascript:void(0);">View Report</a>
+                  <h3 class="card-title">Sentimientos por año y sexo</h3>
+                   <select  class="form-control" onchange="callgetSentimientoXSexoYear()"  id="idsexosSentimientos">
+                   <option value="1">Todos los sexos</option>
+                  <option value="2">famele</option>
+                  <option value="3">mele</option>
+                </select>
+
+                <select  class="form-control" onchange="callgetSentimientoXSexoYear()"  id="idYearSentimientos">
+                 <option value="1">Todos los años</option>
+                </select>
+
+
+
+                 
                 </div>
+                <div  id="idLoading" class="spinner-border" role="status">
+                 <span class="sr-only">Loading...</span>
+              
+               </div>
               </div>
-              <div class="card-body">
-                <div class="d-flex">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">$18,230.00</span>
-                    <span>Sales Over Time</span>
-                  </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fas fa-arrow-up"></i> 33.1%
-                    </span>
-                    <span class="text-muted">Since last month</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
+              <div  class="card-body">
+               
+              <canvas  id="miGraficaSentimientos" width="400" height="300"></canvas>
+               
+           
+               <script type="text/javascript">
 
-                <div class="position-relative mb-4">
-                  <canvas id="sales-chart2" height="200"></canvas>
-                </div>
+               </script>
 
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> This year
-                  </span>
-
-                  <span>
-                    <i class="fas fa-square text-gray"></i> Last year
-                  </span>
-                </div>
               </div>
             </div>
+
+
+           
+       
+
 
             <!-- /.card -->
 
@@ -820,6 +843,8 @@ if ($conn->query($consulta) === TRUE) {
 <script src="AdminLTE-3.0.0-rc.1/dist/js/pages/dashboard3.js"></script>
 <script type="text/javascript" src="assets/js/Manipulador.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="http://blog.ikhuerta.com/jsDownload/dollar_get.js" type="text/javascript"></script>
+
 </body>
 
 </html>

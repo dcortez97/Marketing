@@ -463,7 +463,7 @@ iframe {
 
 .ancho{
   width: 960px;
-  height: 400px;
+  height: 500px;
 }
 
 .padre {
@@ -499,3 +499,9 @@ iframe {
 .centerbutton{
   margin-left: 138px!important;
 }
+
+.nuevo_centro{
+  margin-left: 50%;
+  padding: 10px;
+}
+

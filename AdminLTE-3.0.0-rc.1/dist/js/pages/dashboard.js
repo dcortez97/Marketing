@@ -5,25 +5,6 @@
  *      This is a demo file used only for the main dashboard (index.html)
  **/
 
-
- 
-<?php
- 
-$mysqli = new mysqli("localhost", "root", "root", "fit");
- 
-/* verificar conexion */
-if (mysqli_connect_errno()) {
-echo "Error enconexión: ". mysqli_connect_error();
-exit();
-}
- 
-
- 
-/* cerramos la conexion */
-
- 
-?>
-
 $(function () {
 
   'use strict'
@@ -125,41 +106,18 @@ $(function () {
   // SLIMSCROLL FOR CHAT WIDGET
   $('#chat-box').overlayScrollbars({
     height: '250px'
-  });
-
+  })
 
   /* Chart.js Charts */
   // Sales chart
   var salesChartCanvas = document.getElementById('revenue-chart-canvas').getContext('2d');
   //$('#revenue-chart').get(0).getContext('2d');
 
-
   var salesChartData = {
-    labels  : [<?php
-
-      $sql = " SELECT dob_year, COUNT(*) AS resultado FROM 2019_10_05__13_40 GROUP BY dob_year ";
- 
-      if ($rs = $mysqli->query($sql)) {
-      
-      /* fetch array asociativo*/
-
-      $arreglo_registros = array();
-
-      while ($fila = $rs->fetch_assoc()) 
-      {
-      ?>
-        '<?php echo $fila['dob_year'] ?>',
-      <?php
-              
-      }
-         
-      }
-      
-      
-      ?>],
+    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
-        label               : 'Likes por año',
+        label               : 'Digital Goods',
         backgroundColor     : 'rgba(60,141,188,0.9)',
         borderColor         : 'rgba(60,141,188,0.8)',
         pointRadius          : false,
@@ -167,35 +125,19 @@ $(function () {
         pointStrokeColor    : 'rgba(60,141,188,1)',
         pointHighlightFill  : '#fff',
         pointHighlightStroke: 'rgba(60,141,188,1)',
-        data                : [
-          
-                <?php
-
-            $sql = " SELECT dob_year, COUNT(*) AS resultado FROM 2019_10_04__00_17 GROUP BY dob_year ";
-      
-            if ($rs = $mysqli->query($sql)) {
-            
-            /* fetch array asociativo*/
-
-            $arreglo_registros = array();
-
-            while ($fila = $rs->fetch_assoc()) 
-            {
-            ?>
-              '<?php echo $fila['resultado'] ?>',
-            <?php
-                    
-            }
-              
-            }
-            
-            
-            ?>
-        
-        
-        ]
+        data                : [28, 48, 40, 19, 86, 27, 90]
       },
-      
+      {
+        label               : 'Electronics',
+        backgroundColor     : 'rgba(210, 214, 222, 1)',
+        borderColor         : 'rgba(210, 214, 222, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(210, 214, 222, 1)',
+        pointStrokeColor    : '#c1c7d1',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(220,220,220,1)',
+        data                : [65, 59, 80, 81, 56, 55, 40]
+      },
     ]
   }
 
@@ -209,13 +151,11 @@ $(function () {
       xAxes: [{
         gridLines : {
           display : false,
-          
         }
       }],
       yAxes: [{
         gridLines : {
           display : false,
-          
         }
       }]
     }
